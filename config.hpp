@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-const int MAX_BUTTONS_AMOUNT = 20;
+const int MAX_TOOLS_AMOUNT = 20;
 
 class noncopyable
 {
@@ -17,4 +17,29 @@ protected:
 private:
     noncopyable(const noncopyable&);
     const noncopyable& operator=(const noncopyable&);
+};
+
+enum TOOL
+{
+    NOTHING,
+    ELLIPSE,
+};
+
+class draw_state
+{
+public:
+    sf::Color current_colour;
+    uint32_t current_tool;
+
+    draw_state() :
+        current_colour(),
+        current_tool(NOTHING)
+    {}
+
+    draw_state(sf::Color colour, uint32_t tool) :
+        current_colour(colour),
+        current_tool(tool)
+    {}
+
+    ~draw_state() = default;
 };
