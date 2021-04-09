@@ -1,82 +1,80 @@
 #pragma once
-#include "vector2.hpp"
 
-union colour
-{
-    int value;
-    char parts[4];
-};
+#include "config.hpp"
+#include "base_button.hpp"
 
-class button 
+class button : public base_button
 {
+private:
+
+    sf::Color colour_;
+
 public:
-    vector2_t point_;
-    vector2_t size_;
-    colour colour_;
-
+    
     button() :
-        colour_{ 0 }
+        base_button(),
+        colour_(255, 255, 255)
     {}
 
-    button(const vector2_t& point, const vector2_t& size, const int& colour) :
-        point_(point),
-        size_(size),
-        colour_({ colour })
-    {}
-
-    button(const vector2_t& point, const vector2_t& size, const char& red, const char& green, const char& blue) :
-        point_(point),
-        size_(size)
+    button(sf::Vector2<float>& point, sf::Vector2<float>& size, uint32_t& colour) :
+        base_button(point, size),
+        colour_(colour)
     {
-        colour_.parts[0] = red;
-        colour_.parts[1] = green;
-        colour_.parts[2] = blue;
+        rectangle_.setFillColor(colour_);
+    }
+
+    button(sf::Vector2<float>& point, sf::Vector2<float>& size, uint8_t red, uint8_t green, uint8_t blue) :
+        base_button(point, size),
+        colour_(red, green, blue)
+    {
+        rectangle_.setFillColor(colour_);
+    }
+
+    button(float x, float y, float x_size, float y_size, uint32_t& colour) :
+        base_button(x, y, x_size, y_size),
+        colour_(colour)
+    {
+        rectangle_.setFillColor(colour_);
+    }
+
+    button(float x, float y, float x_size, float y_size, uint8_t red, uint8_t green, uint8_t blue) :
+        base_button(x, y, x_size, y_size),
+        colour_(red, green, blue)
+    {
+        rectangle_.setFillColor(colour_);
     }
 
     ~button() = default;
 
     button(const button& source)
     {
-        point_ = source.point_;
-        size_ = source.size_;
-        colour_ = source.colour_;
+        point_     = source.point_;
+        size_      = source.size_;
+        colour_    = source.colour_;
+        rectangle_ = source.rectangle_;
     }
 
-    void set_position(int x, int y)
+    virtual void operator=(const button& source)
     {
-        point_.x_ = x;
-        point_.y_ = y;
+        point_     = source.point_;
+        size_      = source.size_;
+        colour_    = source.colour_;
+        rectangle_ = source.rectangle_;
     }
 
-    void set_size(int x, int y)
+    void set_colour(uint8_t red, uint8_t green, uint8_t blue)
     {
-        size_.x_ = x;
-        size_.y_ = y;
+        colour_.r = red;
+        colour_.g = green;
+        colour_.b = blue;
     }
 
-    void set_colour(int rgba_value)
+    virtual void draw(sf::RenderWindow& shell_) const
     {
-        colour_.value = rgba_value;
+        shell_.draw(rectangle_);
     }
 
-    void set_colour(char red, char green, char blue)
-    {
-        colour_.parts[0] = red;
-        colour_.parts[1] = green;
-        colour_.parts[2] = blue;
-    }
-
-    void draw() const
-    {
-        ///
-    }
-
-    bool is_pressed() const
-    {
-        //if ()
-    }
-
-    void action() const
+    virtual void action() const
     {
         printf("I am working now!!\n");
     }

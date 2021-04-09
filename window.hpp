@@ -3,31 +3,17 @@
 #include "button.hpp"
 #include "config.hpp"
 
-#include <SFML/Graphics.hpp>
-
-class noncopyable
-{
-protected:
-    noncopyable() {}
-    ~noncopyable() {}
-private:
-    noncopyable(const noncopyable&);
-    const noncopyable& operator=(const noncopyable&);
-};
-
 class window : noncopyable
 {
 private:
 
-    vector2_t size_;
+    sf::Vector2<int> size_;
     const char* name_;
 
     button** buttons_;
     int n_button_;
 
     sf::RenderWindow shell_;
-    sf::Texture paint_;
-    sf::Sprite back_;
 
 public:
 
@@ -35,23 +21,19 @@ public:
         n_button_(0),
         name_(name)
     {
-        size_.x_ = x;
-        size_.y_ = y;
+        size_.x = x;
+        size_.y = y;
 
         shell_.create(sf::VideoMode(x, y), name);
-        paint_.create(x, y);
-        paint_.loadFromFile("back.png");
-        back_.setTexture(paint_);
-        back_.setOrigin(20, 20);
-        back_.setScale(1, 1);
+        shell_.clear(sf::Color(208, 242, 247, 255));
 
         buttons_ = new button* [MAX_BUTTONS_AMOUNT];
     }
 
     ~window()
     {
-        size_.x_ = 0;
-        size_.y_ = 0;
+        size_.x = 0;
+        size_.y = 0;
         name_ = nullptr;
 
         for (int i = 0; i < n_button_; ++i)
@@ -61,10 +43,32 @@ public:
         delete[] buttons_;
     }
 
+    void set_colour(sf::Color& colour)
+    {
+        shell_.clear(colour);
+    }
+
+    void set_colour(uint8_t red, uint8_t green, uint8_t blue)
+    {
+        shell_.clear(sf::Color(red, green, blue, 255));
+    }
+
     void add_button(button* button)
     {
-        buttons_[n_button_] = button;
-        ++n_button_;
+        buttons_[n_button_++] = button;
+    }
+
+    void draw()
+    {
+        for (int i = 0; i < n_button_; ++i)
+        {
+            (*(buttons_[i])).draw(shell_);
+        }
+    }
+
+    int get_buttons()
+    {
+        return n_button_;
     }
 
     void run()
@@ -79,8 +83,8 @@ public:
                     shell_.close();
             }
 
-            shell_.clear();
-            shell_.draw(back_);
+            shell_.clear(sf::Color(208, 242, 247, 255));
+            draw();
             shell_.display();
         }
     }
