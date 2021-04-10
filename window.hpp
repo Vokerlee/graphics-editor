@@ -1,9 +1,17 @@
 #pragma once
 
-#include "colour_button.hpp"
-#include "figures.hpp"
-#include "canvas.hpp"
 #include "config.hpp"
+#include "section.hpp"
+
+#include "ellipse.hpp"
+#include "rectangle.hpp"
+#include "triangle.hpp"
+
+#include "colour_button.hpp"
+#include "canvas.hpp"
+#include "adjuster.hpp"
+#include "clear_button.hpp"
+
 
 class window : noncopyable
 {
@@ -85,6 +93,8 @@ public:
             sf::Event event;
 
             sf::Vector2i mouse_pos = sf::Mouse::getPosition(shell_);
+            state_.click_pos.x = mouse_pos.x;
+            state_.click_pos.y = mouse_pos.y;
 
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
@@ -96,8 +106,6 @@ public:
                     {
                         if ((*tools_[i]).is_pressed(mouse_pos))
                             (*tools_[i]).action(state_);
-
-                        printf("tool = %d\n", state_.current_tool);
                     }
                 }
 

@@ -3,7 +3,7 @@
 #include "config.hpp"
 #include "vidget.hpp"
 
-class colour_button : public vidget
+class rectangle : public vidget
 {
 private:
 
@@ -11,14 +11,14 @@ private:
     sf::Color colour_;
 
 public:
-    
-    colour_button() :
+
+    rectangle() :
         vidget(),
         colour_(255, 255, 255),
         rectangle_(size_)
     {}
 
-    colour_button(sf::Vector2<float>& point, sf::Vector2<float>& size, uint32_t& colour) :
+    rectangle(sf::Vector2<float>& point, sf::Vector2<float>& size, uint32_t& colour) :
         vidget(point, size),
         colour_(colour),
         rectangle_(size_)
@@ -29,7 +29,7 @@ public:
         rectangle_.setFillColor(colour_);
     }
 
-    colour_button(sf::Vector2<float>& point, sf::Vector2<float>& size, uint8_t red, uint8_t green, uint8_t blue) :
+    rectangle(sf::Vector2<float>& point, sf::Vector2<float>& size, uint8_t red, uint8_t green, uint8_t blue) :
         vidget(point, size),
         colour_(red, green, blue),
         rectangle_(size_)
@@ -40,7 +40,7 @@ public:
         rectangle_.setFillColor(colour_);
     }
 
-    colour_button(float x, float y, float x_size, float y_size, uint32_t& colour) :
+    rectangle(float x, float y, float x_size, float y_size, uint32_t& colour) :
         vidget(x, y, x_size, y_size),
         colour_(colour),
         rectangle_(size_)
@@ -51,7 +51,7 @@ public:
         rectangle_.setFillColor(colour_);
     }
 
-    colour_button(float x, float y, float x_size, float y_size, uint8_t red, uint8_t green, uint8_t blue) :
+    rectangle(float x, float y, float x_size, float y_size, uint8_t red, uint8_t green, uint8_t blue) :
         vidget(x, y, x_size, y_size),
         colour_(red, green, blue),
         rectangle_(size_)
@@ -62,9 +62,9 @@ public:
         rectangle_.setFillColor(colour_);
     }
 
-    ~colour_button() = default;
+    ~rectangle() = default;
 
-    colour_button(const colour_button& source)
+    rectangle(const rectangle& source)
     {
         point_     = source.point_;
         size_      = source.size_;
@@ -72,7 +72,7 @@ public:
         rectangle_ = source.rectangle_;
     }
 
-    virtual void operator=(const colour_button& source)
+    virtual void operator=(const rectangle& source)
     {
         point_     = source.point_;
         size_      = source.size_;
@@ -87,6 +87,15 @@ public:
         colour_.b = blue;
     }
 
+    virtual bool is_pressed(sf::Vector2<int> mouse_pos)
+    {
+        if ((mouse_pos.x > point_.x) && (mouse_pos.x < point_.x + size_.x) &&
+            (mouse_pos.y > point_.y) && (mouse_pos.y < point_.y + size_.y))
+            return true;
+
+        return false;
+    }
+
     virtual void draw(sf::RenderWindow& shell_) const
     {
         shell_.draw(rectangle_);
@@ -94,7 +103,6 @@ public:
 
     virtual void action(draw_state& state)
     {
-        state.current_colour = colour_;
+        state.current_tool = RECTANGLE;
     }
-
 };

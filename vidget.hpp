@@ -16,7 +16,7 @@ public:
         size_(10, 10)
     {}
 
-    vidget(sf::Vector2<float>& point, sf::Vector2<float>& size) :
+    vidget(sf::Vector2<float> point, sf::Vector2<float> size) :
         point_(point),
         size_(size)
     {}
@@ -66,7 +66,7 @@ public:
         printf("I can't be drawn!\n");
     }
 
-    virtual void action(draw_state& state) const
+    virtual void action(draw_state& state)
     {
         printf("Wow, I don't know what to do!\n");
     }
