@@ -1,4 +1,4 @@
-# Vector graphics editor. Technotrack C++ course final project.
+# Vector graphics editor. Technotrack C++ course training project.
 
 * Lecturer: Ilya Dedinskiy
 * Length of course: 1 semester
