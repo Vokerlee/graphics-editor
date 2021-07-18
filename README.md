@@ -4,3 +4,8 @@
 * Length of course: 1 semester
 * When was passed: 2 semester
 * Language: Russian
+
+<p align="center">
+    <img src="Paint picture//paint.png" alt="drawing" width="600"/>
+</p>
+
