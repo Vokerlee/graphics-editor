@@ -6,6 +6,6 @@
 * Language: Russian
 
 <p align="center">
-    <img src="Paint picture//paint.png" alt="drawing" width="600"/>
+    <img src="Paint picture//paint.png" alt="drawing" width="750"/>
 </p>
 
